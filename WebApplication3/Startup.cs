@@ -33,7 +33,11 @@ namespace WebApplication3
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddIdentity<CustomizeUser, IdentityRole>()
+            //services.AddIdentity<CustomizeUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<WebApplication3Context>()
+            //    .AddDefaultUI()
+            //    .AddDefaultTokenProviders();
+            services.AddIdentity<CustomizeUser, CustomizeRole>(options => options.Stores.MaxLengthForKeys = 128)
                 .AddEntityFrameworkStores<WebApplication3Context>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();

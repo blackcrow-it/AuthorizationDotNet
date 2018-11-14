@@ -20,18 +20,32 @@ $(document).ready(function() {
 
     $(".btn-delete-role").click(function () {
         const currentBtn = $(this);
+        const indexRole = currentBtn.parent().parent().find("td:eq(1)").text();
+        //const count = currentBtn.parent().parent().count();
+        const index = (parseInt(indexRole) - 1).toString();
         const nameRole = currentBtn.parent().parent().find("td:eq(2)").text();
         const idRole = currentBtn.parent().parent().find("td:eq(0)").text();
         console.log(nameRole + " - " + idRole);
         if (confirm("Do you delete?")) {
             $.ajax({
-                url: "/Roles/Delete?Id="+idRole+"&Name="+nameRole,
+                url: "/ManageRoles/DeleteAsync?Id="+idRole,
                 method: "DELETE",
                 success: function (data) {
                     console.log("Success Delete");
+                    for (var i = parseInt(indexRole); i < $('#table-role tr').length; i++) {
+                        var nowIndex = currentBtn.parent().parent().parent().find("tr:eq(" + i + ")").find("td:eq(1)");
+                        var textIndex = nowIndex.text();
+                        var lateIndex = (parseInt(textIndex) - 1).toString();
+                        nowIndex.text(lateIndex);
+                    }
                     currentBtn.parent().parent().remove();
                 }
             });
         }
+        //console.log(count);
+        
+        
+        //console.log(currentBtn.parent().parent().find("td:eq(1)").text());
+        
     });
 });

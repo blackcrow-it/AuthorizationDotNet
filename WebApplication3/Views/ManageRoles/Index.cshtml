@@ -1,18 +1,18 @@
-﻿@*@model List<Microsoft.AspNetCore.Identity.IdentityRole>*@
+﻿@model List<WebApplication3.Areas.Identity.Data.CustomizeRole>
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Roles</h2>
-@*<div>
-    <a href="/Roles/Create">Creat new role</a>
+<h2>Manage Roles</h2>
+<div>
+    @*<a href="/Roles/Create">Creat new role</a>*@
     <form method="post" asp-action="Create" id="form-create-role">
         <input placeholder="Name" name="Name" />
         <input type="submit" value="Create" />
     </form>
-    <form method="post" asp-action="Edit" id="form-edit-role" style="display: none">
-        <input placeholder="Name" name="Name" id="input-edit-role"/>
-        <input name="Id" id="input-edit-role-id" style="display: none"/>
+    <form method="post" asp-action="EditAsync" id="form-edit-role" style="display: none">
+        <input placeholder="Name" name="Name" id="input-edit-role" />
+        <input name="Id" id="input-edit-role-id" style="display: none" />
         <input type="submit" value="Accept" />
         <button type="button" id="btn-cancle-edit-role">Cancle</button>
     </form>
@@ -27,12 +27,14 @@
             <th>Handle</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="table-role">
+            @{int i = 0;}
             @foreach (var role in Model)
             {
+                i++;
                 <tr>
                     <td style="display: none">@role.Id</td>
-                    <td></td>
+                    <td class="index-role">@i</td>
                     <td>@role.Name</td>
                     <td>@role.NormalizedName</td>
                     <td>
@@ -43,6 +45,4 @@
             }
         </tbody>
     </table>
-</div>*@
-
-
+</div>

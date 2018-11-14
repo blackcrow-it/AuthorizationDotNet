@@ -13,6 +13,6 @@ namespace WebApplication3.Areas.Identity.Data
         public string FirstName { get; set; }
         [PersonalData]
         public string LastName { get; set; }
-        public List<IdentityRole> Roles { get; set; }
+        public ICollection<CustomizeUserRole> UserRoles { get; set; }
     }
 }

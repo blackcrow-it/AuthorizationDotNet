@@ -9,7 +9,9 @@ using WebApplication3.Areas.Identity.Data;
 
 namespace WebApplication3.Models
 {
-    public class WebApplication3Context : IdentityDbContext<CustomizeUser>
+    public class WebApplication3Context : IdentityDbContext<CustomizeUser, CustomizeRole, string, IdentityUserClaim<string>,
+        CustomizeUserRole, IdentityUserLogin<string>,
+        IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         public WebApplication3Context(DbContextOptions<WebApplication3Context> options)
             : base(options)
@@ -19,9 +21,21 @@ namespace WebApplication3.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+
+            builder.Entity<CustomizeUserRole>(userRole =>
+            {
+                userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
+
+                userRole.HasOne(ur => ur.Role)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(ur => ur.RoleId)
+                    .IsRequired();
+
+                userRole.HasOne(ur => ur.User)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
+            });
         }
     }
 }
